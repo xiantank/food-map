@@ -240,7 +240,6 @@ function followHandle(event){
 
 function postbackHandle(event){
 		console.log(JSON.stringify(event,4,4));
-		lineReply(event.replyToken, "post echo:\n"+event.postback.data);
 		let userId = event.source.userId;
 		let data;
 		try{
@@ -249,10 +248,11 @@ function postbackHandle(event){
 				console.error(err);
 				data = {};
 		}
+		lineReply(event.replyToken, ""+data.action);
 		switch(data.action){
 				case 'favoriteRestaurant':
 						console.log(userId, "favoriteRestaurant", data.place_id);
-						let favorite = new mongooseModel.UserFavoritePlace({uid: userId, place_id: place_id});
+						let favorite = new mongooseModel.UserFavoritePlace({uid: userId, place_id: data.place_id});
 						favorite.save().then(function(favorite){
 						}).catch(function(err){
 								if(err.code === 11000){ //expect error for exist: {uid, place_id};
