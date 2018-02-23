@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Simple Map</title>
+<meta name="viewport" content="initial-scale=1.0">
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="./index.css" />
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+</head>
+<body>
+<div class="wrapper flex-box-column">
+		<div id="headerContainer" class="header flex-box flex-between">
+				<div class="flex-box">
+						<h1>Food map</h1>
+						<nav class="row-nav">
+								<ul>
+										<li onclick="rebuildFavoriteList()">列表</li>
+										<li onclick="rebuildMapMarker()">地圖</li>
+								</ul>
+						</nav>
+				</div>
+				<div id="loginInfoBox" class="float-right">
+						<div id="loginBtn" class="btn btn-radius btn-color"><a class="reset-anchor" href="https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1557334654&redirect_uri=https%3A%2F%2Ftan.csie.io%2Ffood-map%2Fline-login-callback%2F&state=12345abcde&scope=openid%20profile&bot_prompt=aggressive">Login in</a></div>
+				</div>
+		</div>
+		<div id="mapsContainer" class="full-height flex-box">
+				<div id="mapContainer" class="flex-item">
+						<input id="pac-input" class="controls" type="text" placeholder="Search Box">
+						<div id="map"></div>
+				</div>
+				<div id="slideMenu" class="right-menu hidden">
+						<span class="closeBtn" onclick="closeSlideMenu()">X</span>
+						<h2 id="edit_title">this is example storeName brabrabra...</h2>
+						<input type="button" id="updateCommentBtn" value="save" style="float:right;"/>
+						<textarea id="edit_comment"></textarea>
+						<div id="edit_photo"></div>
+				</div>
+		</div>
+		<div id="listContainer" class="full-height flex-column-box hidden">
+				
+		</div>
+</div>
+<script src="./js/map.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAJyOPaVWL5WW86CeLC4KL9-tj1Mhr6GKU&callback=initMap&libraries=places" async defer></script>
+</body>
+</html>

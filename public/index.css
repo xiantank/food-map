@@ -1,0 +1,139 @@
+
+html, body {
+		height: 100%;
+		margin: 0;
+		padding: 0;
+}
+
+.hidden {
+		display: none !important;
+}
+
+.grid-box{
+		height: 100%;
+		display: grid;
+}
+
+.wrapper {
+		height: 100%;
+		grid-template-rows: [start] 6rem [header-end] auto [end];
+		grid-template-columns: [start] 7fr [right-line] 3fr [end];
+}
+
+.header {
+		background: yellow;
+		min-height: 6rem;
+}
+
+.full-height {
+		height: 100%;
+}
+
+.full-column {
+		grid-column: start / end;
+}
+
+.body-height {
+		grid-row: header-end / end;
+}
+
+.right-menu {
+		right: 0;
+		width: 30vw;
+		background: blue;
+		z-index: 999;
+}
+
+#map {
+		height: 100%;
+}
+
+#pac-input {
+		height: 1.5rem;
+		width: 15rem;
+		margin: 0.5rem;
+
+}
+
+.btn{
+		padding: 0.5rem;
+		margin: 1.5rem;
+}
+
+.btn-color {
+		background-color: black;
+		color: white;
+}
+
+.btn-radius{
+		border-radius: 2rem;
+}
+
+.float-right {
+		float: right;
+}
+
+.thumb {
+		height: 3rem;
+		border-radius: 2rem;
+}
+
+.reset-anchor {
+		color: inherit;
+		text-decoration: none;
+}
+
+.flex-box{
+		display: flex;
+}
+
+.flex-box-column {
+		display: flex;
+		flex-direction: column;
+}
+
+.flex-item{
+		flex: 1;
+}
+
+.flex-between{
+		justify-content: space-between;
+}
+
+.row-nav {
+		margin: auto;
+}
+
+.row-nav li {
+		display: inline-block;
+		margin: auto;
+		padding: 1rem;
+		font-size: 20px;
+}
+
+.title{
+		font-size: 1.5rem;
+		    font-weight: bold;
+}
+
+.card{
+		margin: .6rem 1rem;
+		padding: 1rem;
+		box-shadow: 8px 5px 5px rgba(0,0,0,0.3), 0 0 1px rgba(0,0,0,0.3);
+}
+
+.closeBtn{
+		float: right;
+}
+
+#edit_comment{
+		display: block;
+		width: 80%;
+		height: 40%;
+		margin: 0.5rem;
+		border-radius: .5rem;
+}
+
+#edit_comment:focus{
+		box-shadow: 5px 4px 1px 0px rgba(0, 0, 0, 0.3), 0 0 1px rgba(0, 0, 0, 0.3);
+}
