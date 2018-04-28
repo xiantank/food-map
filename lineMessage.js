@@ -98,9 +98,9 @@ function commandHandler(userId, replyToken, text){
 				case 'name':
 						userRename(userId, replyToken, value);
 				break;
-				case 'nearBy':
+				case '搜尋餐廳':
 						userState.updateState(userId, "waitNearBy").then(function(){
-						lineReply(replyToken, "please share location and input restaurant keyword to search!");
+						lineReply(replyToken, "請分享地點座標或輸入關鍵字查詢");
 				});
 						break;
 				default:
@@ -133,6 +133,7 @@ function textHandler(event){
 										if(userInfo.place_id){
 										UserFavoritePlace.updateComment(userId, userInfo.place_id, text).then(function(){
 												userState.updateState(userId, "");
+												lineReply(replyToken, "筆記紀錄完成");
 										});
 								}
 
@@ -148,7 +149,7 @@ async function replyRestaurant(replyToken, places){
 				places.map(async function(place){
 						let favoriteAction = {
 								type: "postback",
-								label: "favorite this",
+								label: "收藏",
 								data: JSON.stringify({
 										action: "favoriteRestaurant",
 										place_id: place.place_id,
@@ -156,9 +157,19 @@ async function replyRestaurant(replyToken, places){
 						};
 						let chooseAction = {
 								type: "postback",
-								label: "choose and edit",
+								label: "隨手筆記",
 								data: JSON.stringify({
 										action: "chooseRestaurant",
+										reply: "你已經可以開始撰寫該地點的筆記",
+										place_id: place.place_id,
+								}).slice(0,300)
+						};
+						let chooseActionPicture = {
+								type: "postback",
+								label: "上傳照片",
+								data: JSON.stringify({
+										action: "chooseRestaurant",
+										reply: "你已經可以開始上傳該地點的照片",
 										place_id: place.place_id,
 								}).slice(0,300)
 						};
@@ -166,7 +177,7 @@ async function replyRestaurant(replyToken, places){
 								title: place.name,
 								thumbnailImageUrl: place.photo || place.defaultPictureUrl,
 								text: place.vicinity || place.formatted_address || "no address",
-								actions: [favoriteAction, chooseAction]
+								actions: [favoriteAction, chooseAction, chooseActionPicture]
 						};
 						result.title = result.title.slice(0,39);
 						result.text = result.text.slice(0,59);
@@ -204,9 +215,10 @@ function messageHandler(event){
 										UserFavoritePlace.addPicture(userId, userInfo.place_id, image.data.link).then(function(doc){
 												userState.updateState(userId, "");
 												console.log(JSON.stringify(doc));
+												lineReply(event.replyToken, "照片上傳成功");
 										}).catch(function(error){
 												console.log(error);
-												lineReply(event.replyToken, ""+image.status);
+												lineReply(event.replyToken, "fail: "+image.status);
 										});
 								});
 						}
@@ -220,9 +232,18 @@ function messageHandler(event){
 						lat: event.message.latitude,
 						lng: event.message.longitude
 				};
+				googleMapApi.fetchNearRestaurant(location).then(function(places){
+						replyRestaurant(replyToken, places).then(function(){
+								lineReply(event.replyToken, "你可以輸入關鍵字進行精確搜尋")
+						});
+				}).catch(error=>{
+						console.error(error);
+						console.log("waitNearBy")
+				});
+
+
 
 				userState.updateLocation(userId, location);
-			   lineReply(event.replyToken, "please enter text to search near resaurant!")
 				break;
 				default:
 						console.log("event.message.type don't know")
@@ -248,14 +269,16 @@ function postbackHandle(event){
 				console.error(err);
 				data = {};
 		}
-		lineReply(event.replyToken, ""+data.action);
 		switch(data.action){
 				case 'favoriteRestaurant':
 						console.log(userId, "favoriteRestaurant", data.place_id);
 						let favorite = new mongooseModel.UserFavoritePlace({uid: userId, place_id: data.place_id});
 						favorite.save().then(function(favorite){
+
+								lineReply(event.replyToken, "你已收藏成功");
 						}).catch(function(err){
 								if(err.code === 11000){ //expect error for exist: {uid, place_id};
+										lineReply(event.replyToken, "你已收藏過啦");
 										return;
 								}
 								throw err;
@@ -264,7 +287,8 @@ function postbackHandle(event){
 						});
 				break;
 				case 'chooseRestaurant':
-						console.log(userId, "chooseRestaurant", data.place_id);
+						console.log(userId, "chooseRestaurant", data.place_id, JSON.stringify(data,4,4));
+				lineReply(event.replyToken, data.reply || "你已經可以開始撰寫該地點的筆記或上傳照片");
 						userState.updatePlace(userId, data.place_id).then(function(userInfo){
 								// TODO reply [edit name or upload photo or comment] choose menu to line;
 								console.log(JSON.stringify(userInfo,4,4))
