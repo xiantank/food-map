@@ -40,7 +40,7 @@ html, body {
 .right-menu {
 		right: 0;
 		width: 30vw;
-		background: blue;
+		background: #3bde4f;
 		z-index: 999;
 }
 
