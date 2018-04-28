@@ -105,7 +105,8 @@ router.get("/line-login-callback/",function(req, res, next){
 
 
 authRouter.get("/favoritePlace/:userId/", function(req, res){
-		mongooseModel.UserFavoritePlace.find().populate('favoritePlace').exec(function(err, places){
+		console.log(req.params);
+		mongooseModel.UserFavoritePlace.find({uid: req.params.userId}).populate('favoritePlace').exec(function(err, places){
 				if(err){
 						console.error(err);
 						console.error("err");
