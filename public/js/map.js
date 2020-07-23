@@ -74,8 +74,16 @@ function buildFavoriteList(list){
 }
 
 function markMarkers(places, markers=[]){
-		let bounds = new google.maps.LatLngBounds();
+		var TAIWAN_BOUNDS = (places && places.length) ? undefined : {
+			  north: 25.31,
+			  south: 21.75,
+			  west: 115.28,
+			  east: 123.81
+		};
+
+		let bounds = new google.maps.LatLngBounds(TAIWAN_BOUNDS);
 		places.forEach(function (place) {
+				if (!place) return;
 				if (!place.geometry) {
 						console.log("Returned place contains no geometry");
 						return;
@@ -251,7 +259,7 @@ function fetchFavoritePlace(){
 }
 
 function relogin(){
-		document.location.href="https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1557334654&redirect_uri=https%3A%2F%2Ftan.csie.io%2Ffood-map%2Fline-login-callback%2F&state=12345abcde&scope=openid%20profile&bot_prompt=aggressive";
+		document.location.href="https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1557334654&redirect_uri=https%3A%2F%2Ftan-foodmap.csie.io%2Fline-login-callback%2F&state=12345abcde&scope=openid%20profile&bot_prompt=aggressive";
 }
 
 function loginCheck(){
@@ -309,7 +317,7 @@ function loginCheck(){
 
 function logout(){
 		let parent = document.querySelector("#loginInfoBox");
-		parent.innerHTML = `<div id="loginBtn" class="btn btn-radius btn-color"><a class="reset-anchor" href="https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1557334654&redirect_uri=https%3A%2F%2Ftan.csie.io%2Ffood-map%2Fline-login-callback%2F&state=12345abcde&scope=openid%20profile&bot_prompt=aggressive">Login in</a></div>`
+		parent.innerHTML = `<div id="loginBtn" class="btn btn-radius btn-color"><a class="reset-anchor" href="https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=1557334654&redirect_uri=https%3A%2F%2Ftan-foodmap.csie.io%2Fline-login-callback%2F&state=12345abcde&scope=openid%20profile&bot_prompt=aggressive">Login in</a></div>`
 		localStorage.removeItem("jwt");
 }
 
