@@ -9,9 +9,9 @@ const jsonwebtoken = require("jsonwebtoken");
 require("./dbConnect.js");
 const mongooseModel = require("./model.js");
 const UserFavoritePlace = require("./proxy").UserFavoritePlace;
-const Tokens = require("./privateToken");
+const config = require("./config");
 
-const lineToken = Tokens.lineTokens;
+const lineToken = config.lineTokens;
 const callbackUrl = "https://tan-foodmap.csie.io/line-login-callback/";
 const encodedCallbackUrl = encodeURIComponent(callbackUrl);
 let router = express.Router();

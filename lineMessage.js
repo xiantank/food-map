@@ -5,14 +5,14 @@ const mongooseModel = require("./model.js");
 
 const linePush = require("./pushMessage.js");
 
-const Tokens = require("./privateToken");
+const config = require("./config");
 const lineClient = new line.Client({
-	channelAccessToken: Tokens.lineTokens.channelAccessToken
+	channelAccessToken: config.lineTokens.channelAccessToken
 });
 
 const GoogleMap = require("./googleMap").GoogleMap;
 let googleMapApi = new GoogleMap({
-	apiKey: Tokens.googleMapApiKey
+	apiKey: config.googleMapApiKey
 });
 
 const UserFavoritePlace = require("./proxy").UserFavoritePlace;
@@ -36,7 +36,7 @@ function getImage(messageId){
 					method: "POST",
 					url: "https://api.imgur.com/3/image",
 					headers: {
-						Authorization: "Client-ID "+ Tokens.imgurClientId,
+						Authorization: "Client-ID "+ config.imgurClientId,
 						"User-Agent": "request"
 					},
 					formData: {

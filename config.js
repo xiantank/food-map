@@ -1,4 +1,10 @@
 module.exports = {
-	lineChannelAccessToken: "",
-	imgurClientID: ""
+	myID: "",
+	lineTokens: {
+		clientId: "",
+		clientSecret: "",
+		channelAccessToken: ""
+	},
+	googleMapApiKey: "",
+	imgurClientId: ""
 };
