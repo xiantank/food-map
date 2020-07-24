@@ -282,8 +282,6 @@ function postbackHandle(event){
 		console.log(userId, "chooseRestaurant", data.place_id, JSON.stringify(data,4,4));
 		lineReply(event.replyToken, data.reply || "你已經可以開始撰寫該地點的筆記或上傳照片");
 		userState.updatePlace(userId, data.place_id).then(function(userInfo){
-			// TODO reply [edit name or upload photo or comment] choose menu to line;
-			console.log(JSON.stringify(userInfo,4,4));
 			return userState.updateState(userId, "editComment");
 		}).catch(error=>{
 			console.log(error);

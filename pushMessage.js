@@ -7,7 +7,6 @@ const client = new line.Client({
 });
 
 module.exports = function (userId, message){
-	// TODO use promise
 	if(userId === undefined){
 		console.error("no user id");
 		return;
